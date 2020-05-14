@@ -14,10 +14,22 @@ namespace ThreadingTestApp
         {
             //ViewProcessConformation();
             //NotepadProcessManipulations();
-            ProcessTextFiles();
+            //ProcessTextFiles();
+           
+            StartConsoleHeaderClock();
+
 
             Console.WriteLine("Главный поток завершён!");
             Console.ReadLine();
+        }
+
+        private static void StartConsoleHeaderClock()
+        {
+            while (true)
+            {
+                Console.Title = DateTime.Now.ToString("HH:mm:ss.ffff");
+                Thread.Sleep(100);
+            }
         }
 
         private static void ProcessTextFiles()
