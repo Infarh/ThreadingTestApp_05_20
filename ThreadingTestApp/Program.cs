@@ -13,7 +13,13 @@ namespace ThreadingTestApp
         static void Main(string[] args)
         {
             //ViewProcessConformation();
-            NotepadProcessManipulations();
+            //NotepadProcessManipulations();
+
+            var start_process_info = new ProcessStartInfo("explorer", "\"c:\\program files\"")
+            {
+            };
+
+            var started_process = Process.Start(start_process_info);
 
             Console.WriteLine("Главный поток завершён!");
             Console.ReadLine();
