@@ -16,11 +16,14 @@ namespace ThreadingTestApp
             //NotepadProcessManipulations();
             //ProcessTextFiles();
            
-            StartConsoleHeaderClock();
-
+            //StartConsoleHeaderClock();
+            var clock_thread = new Thread(StartConsoleHeaderClock);
+            clock_thread.IsBackground = true;
+            clock_thread.Start();
 
             Console.WriteLine("Главный поток завершён!");
             Console.ReadLine();
+            Console.WriteLine("Главный поток выгружен.");
         }
 
         private static void StartConsoleHeaderClock()
