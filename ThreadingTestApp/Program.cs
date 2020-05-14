@@ -13,17 +13,32 @@ namespace ThreadingTestApp
         static void Main(string[] args)
         {
             //ViewProcessConformation();
+            NotepadProcessManipulations();
 
+            Console.WriteLine("Главный поток завершён!");
+            Console.ReadLine();
+        }
+
+        private static void NotepadProcessManipulations()
+        {
             var process = Process.Start("notepad.exe");
             Console.ReadLine();
 
             Console.WriteLine("Процесс {0}", process.HasExited ? "выгружен" : "работает");
+            var pid = process.Id;
             Console.ReadLine();
 
-            process.Kill();
+            var pid_process = Process.GetProcessById(pid);
 
-            Console.WriteLine("Главный поток завершён!");
+            Console.WriteLine(pid_process.PriorityClass);
             Console.ReadLine();
+
+            pid_process.PriorityClass = ProcessPriorityClass.High;
+            Console.WriteLine(pid_process.PriorityClass);
+
+            Console.ReadLine();
+            Console.WriteLine("Выгружаю процесс");
+            pid_process.Kill();
         }
 
         private static void ViewProcessConformation()
