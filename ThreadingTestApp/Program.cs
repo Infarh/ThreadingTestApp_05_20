@@ -12,7 +12,15 @@ namespace ThreadingTestApp
     {
         static void Main(string[] args)
         {
-            ViewProcessConformation();
+            //ViewProcessConformation();
+
+            var process = Process.Start("notepad.exe");
+            Console.ReadLine();
+
+            Console.WriteLine("Процесс {0}", process.HasExited ? "выгружен" : "работает");
+            Console.ReadLine();
+
+            process.Kill();
 
             Console.WriteLine("Главный поток завершён!");
             Console.ReadLine();
