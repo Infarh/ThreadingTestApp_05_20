@@ -10,6 +10,8 @@ namespace ThreadingTestApp
 {
     class Program
     {
+        private static bool __CanClockWork = true;
+
         static void Main(string[] args)
         {
             //ViewProcessConformation();
@@ -19,7 +21,20 @@ namespace ThreadingTestApp
             //StartConsoleHeaderClock();
             var clock_thread = new Thread(StartConsoleHeaderClock);
             clock_thread.IsBackground = true;
+            clock_thread.Name = "Поток часов";
+            clock_thread.Priority = ThreadPriority.AboveNormal;
+
             clock_thread.Start();
+            Console.WriteLine("Идентификатор потока часов: {0}", clock_thread.ManagedThreadId);
+
+            Console.ReadLine();
+            //clock_thread.Join();
+            //clock_thread.Abort(); // в крайнем случае! 
+            //clock_thread.Interrupt();
+
+            __CanClockWork = false;
+            if(!clock_thread.Join(10))
+                clock_thread.Interrupt();
 
             Console.WriteLine("Главный поток завершён!");
             Console.ReadLine();
@@ -28,11 +43,20 @@ namespace ThreadingTestApp
 
         private static void StartConsoleHeaderClock()
         {
-            while (true)
+            var thread = Thread.CurrentThread;
+            Console.WriteLine("Запущен поток: id:{0}, name:{1}, priority:{2}",
+                thread.ManagedThreadId, thread.Name, thread.Priority);
+
+            while (__CanClockWork)
             {
                 Console.Title = DateTime.Now.ToString("HH:mm:ss.ffff");
                 Thread.Sleep(100);
+                //Thread.SpinWait(1000);
             }
+
+            Thread.Sleep(500);
+
+            Console.WriteLine("Поток часов завершил свою работу");
         }
 
         private static void ProcessTextFiles()
